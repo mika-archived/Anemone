@@ -9,7 +9,7 @@ namespace Anemone.Services
 {
     public class FirstRunDisplayService : IFirstRunDisplayService
     {
-        private static bool shown = false;
+        private static bool shown;
 
         public async Task ShowIfAppropriateAsync()
         {

@@ -1,8 +1,6 @@
-﻿using System;
+﻿using Windows.UI.Xaml.Controls;
 
 using Anemone.ViewModels;
-
-using Windows.UI.Xaml.Controls;
 
 namespace Anemone.Views
 {

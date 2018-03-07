@@ -1,19 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows.Input;
 
 using Anemone.Models;
 using Anemone.Services;
 
-using Prism.Commands;
 using Prism.Windows.Mvvm;
 using Prism.Windows.Navigation;
-
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
 
 namespace Anemone.ViewModels
 {
@@ -21,12 +15,6 @@ namespace Anemone.ViewModels
     {
         private readonly INavigationService _navigationService;
         private readonly ISampleDataService _sampleDataService;
-
-        public MasterDetailViewModel(INavigationService navigationServiceInstance, ISampleDataService sampleDataServiceInstance)
-        {
-            _navigationService = navigationServiceInstance;
-            _sampleDataService = sampleDataServiceInstance;
-        }
 
         private SampleOrder _selected;
 
@@ -37,6 +25,12 @@ namespace Anemone.ViewModels
         }
 
         public ObservableCollection<SampleOrder> SampleItems { get; } = new ObservableCollection<SampleOrder>();
+
+        public MasterDetailViewModel(INavigationService navigationServiceInstance, ISampleDataService sampleDataServiceInstance)
+        {
+            _navigationService = navigationServiceInstance;
+            _sampleDataService = sampleDataServiceInstance;
+        }
 
         public override async void OnNavigatedTo(NavigatedToEventArgs e, Dictionary<string, object> viewModelState)
         {
@@ -51,9 +45,7 @@ namespace Anemone.ViewModels
             var data = await _sampleDataService.GetSampleModelDataAsync();
 
             foreach (var item in data)
-            {
                 SampleItems.Add(item);
-            }
 
             Selected = SampleItems.First();
         }

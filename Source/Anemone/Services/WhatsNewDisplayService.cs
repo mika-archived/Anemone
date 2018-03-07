@@ -10,7 +10,7 @@ namespace Anemone.Services
     // For instructions on testing this service see https://github.com/Microsoft/WindowsTemplateStudio/tree/master/docs/features/whats-new-prompt.md
     public class WhatsNewDisplayService : IWhatsNewDisplayService
     {
-        private static bool shown = false;
+        private static bool shown;
 
         public async Task ShowIfAppropriateAsync()
         {

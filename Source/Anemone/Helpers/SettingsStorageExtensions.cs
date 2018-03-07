@@ -29,9 +29,7 @@ namespace Anemone.Helpers
         public static async Task<T> ReadAsync<T>(this StorageFolder folder, string name)
         {
             if (!File.Exists(Path.Combine(folder.Path, GetFileName(name))))
-            {
                 return default(T);
-            }
 
             var file = await folder.GetFileAsync($"{name}.json");
             var fileContent = await FileIO.ReadTextAsync(file);
@@ -54,24 +52,19 @@ namespace Anemone.Helpers
             object obj = null;
 
             if (settings.Values.TryGetValue(key, out obj))
-            {
-                return await Json.ToObjectAsync<T>((string)obj);
-            }
+                return await Json.ToObjectAsync<T>((string) obj);
 
             return default(T);
         }
 
-        public static async Task<StorageFile> SaveFileAsync(this StorageFolder folder, byte[] content, string fileName, CreationCollisionOption options = CreationCollisionOption.ReplaceExisting)
+        public static async Task<StorageFile> SaveFileAsync(this StorageFolder folder, byte[] content, string fileName,
+                                                            CreationCollisionOption options = CreationCollisionOption.ReplaceExisting)
         {
             if (content == null)
-            {
                 throw new ArgumentNullException(nameof(content));
-            }
 
             if (string.IsNullOrEmpty(fileName))
-            {
                 throw new ArgumentException("ExceptionSettingsStorageExtensionsFileNameIsNullOrEmpty".GetLocalized(), nameof(fileName));
-            }
 
             var storageFile = await folder.CreateFileAsync(fileName, options);
             await FileIO.WriteBytesAsync(storageFile, content);
@@ -82,10 +75,10 @@ namespace Anemone.Helpers
         {
             var item = await folder.TryGetItemAsync(fileName).AsTask().ConfigureAwait(false);
 
-            if ((item != null) && item.IsOfType(StorageItemTypes.File))
+            if (item != null && item.IsOfType(StorageItemTypes.File))
             {
                 var storageFile = await folder.GetFileAsync(fileName);
-                byte[] content = await storageFile.ReadBytesAsync();
+                var content = await storageFile.ReadBytesAsync();
                 return content;
             }
 
@@ -95,18 +88,16 @@ namespace Anemone.Helpers
         public static async Task<byte[]> ReadBytesAsync(this StorageFile file)
         {
             if (file != null)
-            {
                 using (IRandomAccessStream stream = await file.OpenReadAsync())
                 {
                     using (var reader = new DataReader(stream.GetInputStreamAt(0)))
                     {
-                        await reader.LoadAsync((uint)stream.Size);
+                        await reader.LoadAsync((uint) stream.Size);
                         var bytes = new byte[stream.Size];
                         reader.ReadBytes(bytes);
                         return bytes;
                     }
                 }
-            }
 
             return null;
         }

@@ -13,9 +13,7 @@ namespace Anemone.Helpers
             if (parameter is string enumString)
             {
                 if (!Enum.IsDefined(EnumType, value))
-                {
                     throw new ArgumentException("ExceptionEnumToBooleanConverterValueMustBeAnEnum".GetLocalized());
-                }
 
                 var enumValue = Enum.Parse(EnumType, enumString);
 
@@ -28,9 +26,7 @@ namespace Anemone.Helpers
         public object ConvertBack(object value, Type targetType, object parameter, string language)
         {
             if (parameter is string enumString)
-            {
                 return Enum.Parse(EnumType, enumString);
-            }
 
             throw new ArgumentException("ExceptionEnumToBooleanConverterParameterMustBeAnEnumName".GetLocalized());
         }

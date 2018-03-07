@@ -1,10 +1,6 @@
-﻿using System;
+﻿using Windows.UI.Xaml.Controls;
 
 using Anemone.ViewModels;
-
-using Prism.Windows.Mvvm;
-
-using Windows.UI.Xaml.Controls;
 
 namespace Anemone.Views
 {

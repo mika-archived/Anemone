@@ -1,20 +1,18 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
 
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Navigation;
+
 using Anemone.Helpers;
-using Anemone.Views;
 
 using Microsoft.Toolkit.Uwp.UI.Controls;
 
 using Prism.Commands;
 using Prism.Windows.Mvvm;
 using Prism.Windows.Navigation;
-
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Navigation;
 
 namespace Anemone.ViewModels
 {
@@ -27,6 +25,54 @@ namespace Anemone.ViewModels
         private const double PanoramicStateMinWindowWidth = 1024;
         private readonly INavigationService _navigationService;
 
+        private SplitViewDisplayMode _displayMode = SplitViewDisplayMode.CompactInline;
+
+        private bool _isPaneOpen;
+
+        private object _lastSelectedItem;
+
+        private ObservableCollection<ShellNavigationItem> _primaryItems = new ObservableCollection<ShellNavigationItem>();
+
+        private ObservableCollection<ShellNavigationItem> _secondaryItems = new ObservableCollection<ShellNavigationItem>();
+
+        private object _selected;
+
+        public bool IsPaneOpen
+        {
+            get => _isPaneOpen;
+            set => SetProperty(ref _isPaneOpen, value);
+        }
+
+        public object Selected
+        {
+            get => _selected;
+            set => SetProperty(ref _selected, value);
+        }
+
+        public SplitViewDisplayMode DisplayMode
+        {
+            get => _displayMode;
+            set => SetProperty(ref _displayMode, value);
+        }
+
+        public ObservableCollection<ShellNavigationItem> PrimaryItems
+        {
+            get => _primaryItems;
+            set => SetProperty(ref _primaryItems, value);
+        }
+
+        public ObservableCollection<ShellNavigationItem> SecondaryItems
+        {
+            get => _secondaryItems;
+            set => SetProperty(ref _secondaryItems, value);
+        }
+
+        public ICommand OpenPaneCommand { get; }
+
+        public ICommand ItemSelectedCommand { get; }
+
+        public ICommand StateChangedCommand { get; }
+
         public ShellViewModel(INavigationService navigationServiceInstance)
         {
             _navigationService = navigationServiceInstance;
@@ -35,54 +81,6 @@ namespace Anemone.ViewModels
             ItemSelectedCommand = new DelegateCommand<HamburgerMenuItemInvokedEventArgs>(ItemSelected);
             StateChangedCommand = new DelegateCommand<VisualStateChangedEventArgs>(args => GoToState(args.NewState.Name));
         }
-
-        private bool _isPaneOpen;
-
-        public bool IsPaneOpen
-        {
-            get { return _isPaneOpen; }
-            set { SetProperty(ref _isPaneOpen, value); }
-        }
-
-        private object _selected;
-
-        public object Selected
-        {
-            get { return _selected; }
-            set { SetProperty(ref _selected, value); }
-        }
-
-        private SplitViewDisplayMode _displayMode = SplitViewDisplayMode.CompactInline;
-
-        public SplitViewDisplayMode DisplayMode
-        {
-            get { return _displayMode; }
-            set { SetProperty(ref _displayMode, value); }
-        }
-
-        private object _lastSelectedItem;
-
-        private ObservableCollection<ShellNavigationItem> _primaryItems = new ObservableCollection<ShellNavigationItem>();
-
-        public ObservableCollection<ShellNavigationItem> PrimaryItems
-        {
-            get { return _primaryItems; }
-            set { SetProperty(ref _primaryItems, value); }
-        }
-
-        private ObservableCollection<ShellNavigationItem> _secondaryItems = new ObservableCollection<ShellNavigationItem>();
-
-        public ObservableCollection<ShellNavigationItem> SecondaryItems
-        {
-            get { return _secondaryItems; }
-            set { SetProperty(ref _secondaryItems, value); }
-        }
-
-        public ICommand OpenPaneCommand { get; }
-
-        public ICommand ItemSelectedCommand { get; }
-
-        public ICommand StateChangedCommand { get; }
 
         private void GoToState(string stateName)
         {
@@ -117,17 +115,11 @@ namespace Anemone.ViewModels
         private void InitializeState(double windowWith)
         {
             if (windowWith < WideStateMinWindowWidth)
-            {
                 GoToState(NarrowStateName);
-            }
             else if (windowWith < PanoramicStateMinWindowWidth)
-            {
                 GoToState(WideStateName);
-            }
             else
-            {
                 GoToState(PanoramicStateName);
-            }
         }
 
         private void PopulateNavItems()
@@ -148,9 +140,7 @@ namespace Anemone.ViewModels
         private void ItemSelected(HamburgerMenuItemInvokedEventArgs args)
         {
             if (DisplayMode == SplitViewDisplayMode.CompactOverlay || DisplayMode == SplitViewDisplayMode.Overlay)
-            {
                 IsPaneOpen = false;
-            }
 
             Navigate(args.InvokedItem);
         }
@@ -162,9 +152,7 @@ namespace Anemone.ViewModels
                 var vm = e.SourcePageType.ToString().Split('.').Last().Replace("Page", string.Empty);
                 var navigationItem = PrimaryItems?.FirstOrDefault(i => i.PageIdentifier == vm);
                 if (navigationItem == null)
-                {
                     navigationItem = SecondaryItems?.FirstOrDefault(i => i.PageIdentifier == vm);
-                }
 
                 if (navigationItem != null)
                 {
@@ -177,9 +165,7 @@ namespace Anemone.ViewModels
         private void ChangeSelected(object oldValue, object newValue)
         {
             if (oldValue != null)
-            {
                 (oldValue as ShellNavigationItem).IsSelected = false;
-            }
 
             if (newValue != null)
             {
@@ -192,9 +178,7 @@ namespace Anemone.ViewModels
         {
             var navigationItem = item as ShellNavigationItem;
             if (navigationItem != null)
-            {
                 _navigationService.Navigate(navigationItem.PageIdentifier, null);
-            }
         }
     }
 }

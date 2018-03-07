@@ -4,9 +4,9 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 
-using Anemone.Models;
-
 using Windows.UI.Xaml.Controls;
+
+using Anemone.Models;
 
 namespace Anemone.Services
 {
@@ -14,6 +14,21 @@ namespace Anemone.Services
     // TODO WTS: Delete this file once your app is using real data.
     public class SampleDataService : ISampleDataService
     {
+        // TODO WTS: Remove this once your chart page is displaying real data
+        public ObservableCollection<DataPoint> GetChartSampleData()
+        {
+            var data = AllOrders().Select(o => new DataPoint {Category = o.Company, Value = o.OrderTotal})
+                                  .OrderBy(dp => dp.Category);
+
+            return new ObservableCollection<DataPoint>(data);
+        }
+
+        // TODO WTS: Remove this once your MasterDetail pages are displaying real data
+        public async Task<IEnumerable<SampleOrder>> GetSampleModelDataAsync()
+        {
+            return await Task.FromResult(AllOrders());
+        }
+
         private static IEnumerable<SampleOrder> AllOrders()
         {
             // The following is order summary data
@@ -118,25 +133,10 @@ namespace Anemone.Services
                     OrderTotal = 800.00,
                     Status = "New",
                     Symbol = Symbol.OutlineStar
-                },
+                }
             };
 
             return data;
-        }
-
-        // TODO WTS: Remove this once your chart page is displaying real data
-        public ObservableCollection<DataPoint> GetChartSampleData()
-        {
-            var data = AllOrders().Select(o => new DataPoint() { Category = o.Company, Value = o.OrderTotal })
-                                  .OrderBy(dp => dp.Category);
-
-            return new ObservableCollection<DataPoint>(data);
-        }
-
-        // TODO WTS: Remove this once your MasterDetail pages are displaying real data
-        public async Task<IEnumerable<SampleOrder>> GetSampleModelDataAsync()
-        {
-            return await Task.FromResult<IEnumerable<SampleOrder>>(AllOrders());
         }
     }
 }

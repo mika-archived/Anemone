@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-using Anemone.Helpers;
-
 using Windows.Storage;
 using Windows.UI.Xaml;
+
+using Anemone.Helpers;
 
 namespace Anemone.Services
 {
@@ -30,20 +30,16 @@ namespace Anemone.Services
         public static void SetRequestedTheme()
         {
             if (Window.Current.Content is FrameworkElement frameworkElement)
-            {
                 frameworkElement.RequestedTheme = Theme;
-            }
         }
 
         private static async Task<ElementTheme> LoadThemeFromSettingsAsync()
         {
-            ElementTheme cacheTheme = ElementTheme.Default;
-            string themeName = await ApplicationData.Current.LocalSettings.ReadAsync<string>(SettingsKey);
+            var cacheTheme = ElementTheme.Default;
+            var themeName = await ApplicationData.Current.LocalSettings.ReadAsync<string>(SettingsKey);
 
             if (!string.IsNullOrEmpty(themeName))
-            {
                 Enum.TryParse(themeName, out cacheTheme);
-            }
 
             return cacheTheme;
         }

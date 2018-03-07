@@ -23,20 +23,11 @@ namespace Anemone.Models
 
         public Symbol Symbol { get; set; }
 
-        public char SymbolAsChar
-        {
-            get { return (char)Symbol; }
-        }
+        public char SymbolAsChar => (char) Symbol;
 
-        public string HashIdentIcon
-        {
-            get { return GetHashCode().ToString() + "-icon"; }
-        }
+        public string HashIdentIcon => GetHashCode() + "-icon";
 
-        public string HashIdentTitle
-        {
-            get { return GetHashCode().ToString() + "-title"; }
-        }
+        public string HashIdentTitle => GetHashCode() + "-title";
 
         public override string ToString()
         {
