@@ -2,20 +2,22 @@
 using System.Globalization;
 using System.Threading.Tasks;
 
+using Windows.ApplicationModel.Activation;
+using Windows.ApplicationModel.Resources;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+
 using Anemone.Services;
 using Anemone.Views;
 
+using Microsoft.AppCenter;
+using Microsoft.AppCenter.Analytics;
 using Microsoft.Practices.Unity;
 
 using Prism.Mvvm;
 using Prism.Unity.Windows;
 using Prism.Windows.AppModel;
 using Prism.Windows.Navigation;
-
-using Windows.ApplicationModel.Activation;
-using Windows.ApplicationModel.Resources;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
 
 namespace Anemone
 {
@@ -24,6 +26,7 @@ namespace Anemone
         public App()
         {
             InitializeComponent();
+            AppCenter.Start("69ef6825-eb41-4ba2-b8b3-d4f929a7ffb1", typeof(Analytics));
         }
 
         protected override void ConfigureContainer()
@@ -43,7 +46,7 @@ namespace Anemone
 
         private async Task LaunchApplicationAsync(string page, object launchParam)
         {
-            Services.ThemeSelectorService.SetRequestedTheme();
+            ThemeSelectorService.SetRequestedTheme();
             NavigationService.Navigate(page, launchParam);
             Window.Current.Activate();
             await Container.Resolve<IWhatsNewDisplayService>().ShowIfAppropriateAsync();
@@ -62,9 +65,10 @@ namespace Anemone
 
             // We are remapping the default ViewNamePage and ViewNamePageViewModel naming to ViewNamePage and ViewNameViewModel to
             // gain better code reuse with other frameworks and pages within Windows Template Studio
-            ViewModelLocationProvider.SetDefaultViewTypeToViewModelTypeResolver((viewType) =>
+            ViewModelLocationProvider.SetDefaultViewTypeToViewModelTypeResolver(viewType =>
             {
-                var viewModelTypeName = string.Format(CultureInfo.InvariantCulture, "Anemone.ViewModels.{0}ViewModel, Anemone", viewType.Name.Substring(0, viewType.Name.Length - 4));
+                var viewModelTypeName = string.Format(CultureInfo.InvariantCulture, "Anemone.ViewModels.{0}ViewModel, Anemone",
+                                                      viewType.Name.Substring(0, viewType.Name.Length - 4));
                 return Type.GetType(viewModelTypeName);
             });
             await base.OnInitializeAsync(args);

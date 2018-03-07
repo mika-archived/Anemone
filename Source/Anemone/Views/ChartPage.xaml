@@ -2,22 +2,19 @@
     x:Class="Anemone.Views.ChartPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:cu="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractNotPresent(Windows.Foundation.UniversalApiContract,5)"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:fcu="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,5)"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Style="{StaticResource PageStyle}"
     xmlns:prismMvvm="using:Prism.Windows.Mvvm"
-    prismMvvm:ViewModelLocator.AutoWireViewModel="True" 
     xmlns:tc="using:Telerik.UI.Xaml.Controls.Chart"
-    xmlns:fcu ="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,5)"
-    xmlns:cu ="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractNotPresent(Windows.Foundation.UniversalApiContract,5)"
+    prismMvvm:ViewModelLocator.AutoWireViewModel="True"
+    Style="{StaticResource PageStyle}"
     mc:Ignorable="d">
-    <Grid
-        x:Name="ContentArea"
-        Margin="{StaticResource MediumLeftRightMargin}">
-
+    <Grid x:Name="ContentArea" Margin="{StaticResource MediumLeftRightMargin}">
         <Grid.RowDefinitions>
-            <RowDefinition x:Name="TitleRow" Height="48"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition x:Name="TitleRow" Height="48" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
         <TextBlock
@@ -31,26 +28,26 @@
                     <tc:CategoricalAxis Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}">
                         <tc:CategoricalAxis.LineStyle>
                             <Style TargetType="Line">
-                                <Setter Property="Stroke" Value="{ThemeResource SystemControlBackgroundBaseMediumBrush}"/>
+                                <Setter Property="Stroke" Value="{ThemeResource SystemControlBackgroundBaseMediumBrush}" />
                             </Style>
                         </tc:CategoricalAxis.LineStyle>
                         <tc:CategoricalAxis.MajorTickStyle>
                             <Style TargetType="Rectangle">
-                                <Setter Property="Fill" Value="{ThemeResource SystemControlBackgroundBaseMediumBrush}"/>
+                                <Setter Property="Fill" Value="{ThemeResource SystemControlBackgroundBaseMediumBrush}" />
                             </Style>
                         </tc:CategoricalAxis.MajorTickStyle>
                     </tc:CategoricalAxis>
                 </tc:RadCartesianChart.HorizontalAxis>
                 <tc:RadCartesianChart.VerticalAxis>
-                    <tc:LinearAxis Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" >
+                    <tc:LinearAxis Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}">
                         <tc:LinearAxis.LineStyle>
                             <Style TargetType="Line">
-                                <Setter Property="Stroke" Value="{ThemeResource SystemControlBackgroundBaseMediumBrush}"/>
+                                <Setter Property="Stroke" Value="{ThemeResource SystemControlBackgroundBaseMediumBrush}" />
                             </Style>
                         </tc:LinearAxis.LineStyle>
                         <tc:LinearAxis.MajorTickStyle>
                             <Style TargetType="Rectangle">
-                                <Setter Property="Fill" Value="{ThemeResource SystemControlBackgroundBaseMediumBrush}"/>
+                                <Setter Property="Fill" Value="{ThemeResource SystemControlBackgroundBaseMediumBrush}" />
                             </Style>
                         </tc:LinearAxis.MajorTickStyle>
                     </tc:LinearAxis>
@@ -70,15 +67,15 @@
             <VisualStateGroup x:Name="WindowStates">
                 <VisualState x:Name="WideState">
                     <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="640"/>
+                        <AdaptiveTrigger MinWindowWidth="640" />
                     </VisualState.StateTriggers>
                 </VisualState>
                 <VisualState x:Name="NarrowState">
                     <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="0"/>
+                        <AdaptiveTrigger MinWindowWidth="0" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="TitlePage.Margin" cu:Value="48,0,12,7" fcu:Value="0,0,12,7"/>
+                        <Setter Target="TitlePage.Margin" Value="0,0,12,7" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>

@@ -32,7 +32,7 @@ namespace Anemone.ViewModels
             _navigationService = navigationServiceInstance;
 
             OpenPaneCommand = new DelegateCommand(() => IsPaneOpen = !_isPaneOpen);
-            ItemSelectedCommand = new DelegateCommand<HamburgetMenuItemInvokedEventArgs>(ItemSelected);
+            ItemSelectedCommand = new DelegateCommand<HamburgerMenuItemInvokedEventArgs>(ItemSelected);
             StateChangedCommand = new DelegateCommand<VisualStateChangedEventArgs>(args => GoToState(args.NewState.Name));
         }
 
@@ -91,14 +91,17 @@ namespace Anemone.ViewModels
                 case PanoramicStateName:
                     DisplayMode = SplitViewDisplayMode.CompactInline;
                     break;
+
                 case WideStateName:
                     DisplayMode = SplitViewDisplayMode.CompactInline;
                     IsPaneOpen = false;
                     break;
+
                 case NarrowStateName:
                     DisplayMode = SplitViewDisplayMode.Overlay;
                     IsPaneOpen = false;
                     break;
+
                 default:
                     break;
             }
@@ -142,7 +145,7 @@ namespace Anemone.ViewModels
             SecondaryItems.Add(new ShellNavigationItem("Shell_Settings".GetLocalized(), Symbol.Setting, "Settings"));
         }
 
-        private void ItemSelected(HamburgetMenuItemInvokedEventArgs args)
+        private void ItemSelected(HamburgerMenuItemInvokedEventArgs args)
         {
             if (DisplayMode == SplitViewDisplayMode.CompactOverlay || DisplayMode == SplitViewDisplayMode.Overlay)
             {

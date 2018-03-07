@@ -2,16 +2,14 @@
     x:Class="Anemone.Views.MasterDetailPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Style="{StaticResource PageStyle}"
-    xmlns:prismMvvm="using:Prism.Windows.Mvvm"
-    prismMvvm:ViewModelLocator.AutoWireViewModel="True" 
-    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:model="using:Anemone.Models"
+    xmlns:prismMvvm="using:Prism.Windows.Mvvm"
     xmlns:views="using:Anemone.Views"
-    xmlns:fcu ="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,5)"
-    xmlns:cu ="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractNotPresent(Windows.Foundation.UniversalApiContract,5)"
+    prismMvvm:ViewModelLocator.AutoWireViewModel="True"
+    Style="{StaticResource PageStyle}"
     mc:Ignorable="d">
     <Page.Transitions>
         <TransitionCollection>
@@ -22,19 +20,30 @@
         <DataTemplate x:Key="ItemTemplate" x:DataType="model:SampleOrder">
             <Grid Height="64" Padding="0,8">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <FontIcon Grid.Column="0" Tag="{x:Bind HashIdentIcon}" FontSize="40" Glyph="{x:Bind SymbolAsChar}" VerticalAlignment="Center" />
-                <StackPanel Grid.Column="1" Margin="12,0,0,0" VerticalAlignment="Center">
-                    <TextBlock Text="{x:Bind Company}" Tag="{x:Bind HashIdentTitle}" Style="{ThemeResource ListTitleStyle}"/>
-                    <TextBlock Text="{x:Bind Status}" Style="{StaticResource ListSubTitleStyle}"/>
+                <FontIcon
+                    Grid.Column="0"
+                    VerticalAlignment="Center"
+                    FontSize="40"
+                    Glyph="{x:Bind SymbolAsChar}"
+                    Tag="{x:Bind HashIdentIcon}" />
+                <StackPanel
+                    Grid.Column="1"
+                    Margin="12,0,0,0"
+                    VerticalAlignment="Center">
+                    <TextBlock
+                        Style="{ThemeResource ListTitleStyle}"
+                        Tag="{x:Bind HashIdentTitle}"
+                        Text="{x:Bind Company}" />
+                    <TextBlock Style="{StaticResource ListSubTitleStyle}" Text="{x:Bind Status}" />
                 </StackPanel>
             </Grid>
         </DataTemplate>
 
         <DataTemplate x:Key="DetailsTemplate">
-            <views:MasterDetailDetailControl MasterMenuItem="{Binding}"/>
+            <views:MasterDetailDetailControl MasterMenuItem="{Binding}" />
         </DataTemplate>
 
         <DataTemplate x:Key="NoSelectionContentTemplate">
@@ -43,41 +52,40 @@
     </Page.Resources>
 
     <Grid>
-
         <Grid.RowDefinitions>
-            <RowDefinition x:Name="TitleRow" Height="Auto"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition x:Name="TitleRow" Height="Auto" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
         <TextBlock
-            x:Uid="MasterDetail_Title"
             x:Name="TitlePage"
+            x:Uid="MasterDetail_Title"
             Margin="12,0,12,7"
             Style="{StaticResource PageTitleStyle}" />
 
         <controls:MasterDetailsView
-            Grid.Row="1"
             x:Name="MasterDetailsViewControl"
-            ItemsSource="{x:Bind ViewModel.SampleItems}"
-            SelectedItem="{x:Bind ViewModel.Selected, Mode=OneWay}"
-            ItemTemplate="{StaticResource ItemTemplate}"
+            Grid.Row="1"
+            BorderBrush="Transparent"
             DetailsTemplate="{StaticResource DetailsTemplate}"
+            ItemTemplate="{StaticResource ItemTemplate}"
+            ItemsSource="{x:Bind ViewModel.SampleItems}"
             NoSelectionContentTemplate="{StaticResource NoSelectionContentTemplate}"
-            BorderBrush="Transparent" />
+            SelectedItem="{x:Bind ViewModel.Selected, Mode=OneWay}" />
         <!--  Adaptive triggers  -->
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="WindowStates">
                 <VisualState x:Name="WideState">
                     <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="640"/>
+                        <AdaptiveTrigger MinWindowWidth="640" />
                     </VisualState.StateTriggers>
                 </VisualState>
                 <VisualState x:Name="NarrowState">
                     <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="0"/>
+                        <AdaptiveTrigger MinWindowWidth="0" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="TitlePage.Margin" cu:Value="60,0,12,7" fcu:Value="12,0,12,7"/>
+                        <Setter Target="TitlePage.Margin" Value="12,0,12,7" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
